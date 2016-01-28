@@ -1,0 +1,135 @@
+"        _                    
+" __   _(_)_ __ ___  _ __ ___ 
+" \ \ / / | '_ ` _ \| '__/ __|
+"  \ V /| | | | | | | | | (__ 
+" (_)_/ |_|_| |_| |_|_|  \___|
+"
+
+" No backward compatibility to vi
+set nocompatible
+
+"Pathogen
+execute pathogen#infect()
+
+"
+" Indentation
+"
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+
+"
+" Syntax
+"
+syntax on
+set showtabline=2 " Tabs immer anzeigen
+set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
+set list           " listchars anzeigen
+
+"
+" Line Numbers
+"
+set number
+
+"
+" Filetype settings
+"
+filetype plugin on
+filetype indent on
+
+"
+" Search
+"
+set incsearch
+set hlsearch
+set ignorecase     " Ignoriert Gross/Kleinschreibung beim Suchen
+set smartcase      " Nur Gross/Kleinschreibung beachten, wenn Grossbuchstabe vorhanden
+set wrapscan       " Nach dem Zeilenende weitersuchen
+
+"
+" Statusline
+"
+set laststatus=2
+set statusline=%<%f\ %(\ [%M%R%H%Y]%)%=%-14.(%l,%c%V%)\ %P
+
+"
+" Autoreload
+"
+autocmd! bufwritepost .vimrc source %
+
+"
+" Persistent Undo
+"
+set undofile
+set undodir=~/.vim/undo/
+
+"
+" Clipboard Support
+"
+map <C-S-C> : w ! xclip -selection clipboard<CR><CR>
+set clipboard=unnamed
+
+"
+" Split
+"
+set splitbelow
+set splitright
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+"
+" Diff
+"
+:set diffopt=filler,horizontal
+
+"
+" NerdTree 
+"
+map <C-n> :NERDTreeToggle<CR>
+map <C-m> :NERDTreeFind<CR>
+
+"
+" CtrlP
+"
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_max_height = 30
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_reversed = 0
+
+colorscheme sexy-railscasts-256
+
+" highlight the status bar when in insert mode
+if version >= 700
+  au InsertEnter * hi StatusLine ctermfg=235 ctermbg=2
+  au InsertLeave * hi StatusLine ctermbg=240 ctermfg=12
+endif
+
+" autload vimrc
+augroup reload_vimrc " {
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END " }
+
+" RSpec.vim mappings
+let mapleader=","
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
