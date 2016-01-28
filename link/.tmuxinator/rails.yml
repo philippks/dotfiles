@@ -1,0 +1,12 @@
+# ~/.tmuxinator/default.yml
+
+name: default
+root: .
+
+windows:
+  - editor: vim
+  - test: bundle exec rspec
+  - bash:
+  - foreman: bundle exec foreman start
+  - console: bundle exec rails c
+  - logs: tail -f log/development.log
