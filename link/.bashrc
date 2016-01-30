@@ -1,3 +1,6 @@
+# Nur laden, wenn interaktive Session
+[ -z "$PS1" ] && return
+
 # Where the magic happens.
 export DOTFILES=~/.dotfiles
 
@@ -14,3 +17,7 @@ function src() {
 }
 
 src
+
+set -o vi
+alias vi='vim'
+export EDITOR='vim'

@@ -1,9 +1,13 @@
-"        _                    
-" __   _(_)_ __ ___  _ __ ___ 
+"        _
+" __   _(_)_ __ ___  _ __ ___
 " \ \ / / | '_ ` _ \| '__/ __|
-"  \ V /| | | | | | | | | (__ 
+"  \ V /| | | | | | | | | (__
 " (_)_/ |_|_| |_| |_|_|  \___|
 "
+scriptencoding utf-8
+set encoding=utf-8
+
+let mapleader = ","
 
 " No backward compatibility to vi
 set nocompatible
@@ -31,9 +35,20 @@ set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
 set list           " listchars anzeigen
 
 "
+" Spell Checking
+"
+map <F5> :setlocal spell! spelllang=hun-de-CH-frami<CR>
+
+"
 " Line Numbers
 "
 set number
+
+"
+" Line Length
+"
+highlight ColorColumn ctermbg=magenta "set to whatever you like
+call matchadd('ColorColumn', '\%81v', 100) "set column nr
 
 "
 " Filetype settings
@@ -70,8 +85,16 @@ set undodir=~/.vim/undo/
 "
 " Clipboard Support
 "
-map <C-S-C> : w ! xclip -selection clipboard<CR><CR>
-set clipboard=unnamed
+
+if has('unix')
+  if has('mac')       " osx
+    map <C-S-C> : w ! xclip -selection clipboard<CR><CR>
+    set clipboard=unnamed
+  else                " linux, bsd, etc
+    map <C-C> : w ! xclip -selection clip<CR><CR>
+    imap <S-Insert> : <esc> r ! xclip -o -selection clip<CR><CR>i
+  endif
+endif
 
 "
 " Split
@@ -89,7 +112,7 @@ nnoremap <C-H> <C-W><C-H>
 :set diffopt=filler,horizontal
 
 "
-" NerdTree 
+" NerdTree
 "
 map <C-n> :NERDTreeToggle<CR>
 map <C-m> :NERDTreeFind<CR>
@@ -117,8 +140,22 @@ augroup reload_vimrc " {
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END " }
 
+" unmap arrow keys
+map <Left> :echomsg 'shame on you'<CR>
+map <Right> :echomsg 'shame on you'<CR>
+map <Up> :echomsg 'shame on you'<CR>
+map <Down> :echomsg 'shame on you'<CR>
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
+" Show trailing whitespaces
+set listchars=tab:▸·,trail:· "
+
+" Strip trailing whitespaces on save
+autocmd FileType c,cpp,java,php,rb,tex,yml autocmd BufWritePre <buffer> :%s/\s\+$//e
+
 " RSpec.vim mappings
-let mapleader=","
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
