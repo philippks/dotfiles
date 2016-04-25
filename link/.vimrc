@@ -91,8 +91,8 @@ if has('unix')
     map <C-S-C> : w ! xclip -selection clipboard<CR><CR>
     set clipboard=unnamed
   else                " linux, bsd, etc
-    map <C-C> : w ! xclip -selection clip<CR><CR>
-    imap <S-Insert> : <esc> r ! xclip -o -selection clip<CR><CR>i
+    vmap <C-c> y:call system("xclip -i -selection clipboard", getreg("\""))<CR>:call system("xclip -i", getreg("\""))<CR>
+    vmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
   endif
 endif
 

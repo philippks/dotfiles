@@ -7,6 +7,6 @@ windows:
   - editor: vim
   - test: bundle exec rspec
   - bash:
-  - foreman: bundle exec foreman start
+  - server: bundle exec rails s
   - console: bundle exec rails c
   - logs: tail -f log/development.log
