@@ -1,3 +1,6 @@
 [submodule "link/.vim/bundle/ctrlp.vim"]
 	path = link/.vim/bundle/ctrlp.vim
 	url = git@github.com:kien/ctrlp.vim.git
+[submodule "link/.vim/bundle/vim-trailing-whitespace"]
+	path = link/.vim/bundle/vim-trailing-whitespace
+	url = https://github.com/bronson/vim-trailing-whitespace.git

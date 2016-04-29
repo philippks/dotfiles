@@ -48,7 +48,7 @@ set number
 " Line Length
 "
 highlight ColorColumn ctermbg=magenta "set to whatever you like
-call matchadd('ColorColumn', '\%81v', 100) "set column nr
+call matchadd('ColorColumn', '\%101v', 100) "set column nr
 
 "
 " Filetype settings
@@ -149,11 +149,16 @@ map <Down> :echomsg 'shame on you'<CR>
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-" Show trailing whitespaces
-set listchars=tab:▸·,trail:· "
+" Remove trailing whitespaces
+fun! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-" Strip trailing whitespaces on save
-autocmd FileType c,cpp,java,php,rb,tex,yml autocmd BufWritePre <buffer> :%s/\s\+$//e
+highlight ExtraWhitespace ctermbg=red guibg=red
 
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
