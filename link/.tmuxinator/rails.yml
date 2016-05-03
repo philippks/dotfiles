@@ -1,7 +1,7 @@
-# ~/.tmuxinator/default.yml
+# ~/.tmuxinator/rails.yml
 
-name: default
-root: .
+name: <%= @args[0] %>
+root: ~/projects/<%= @args[0] %>
 
 windows:
   - editor: vim

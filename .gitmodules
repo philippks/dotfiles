@@ -4,3 +4,12 @@
 [submodule "link/.vim/bundle/vim-trailing-whitespace"]
 	path = link/.vim/bundle/vim-trailing-whitespace
 	url = https://github.com/bronson/vim-trailing-whitespace.git
+[submodule "link/.vim/bundle/vim-reek"]
+	path = link/.vim/bundle/vim-reek
+	url = https://github.com/rainerborene/vim-reek.git
+[submodule "link/.vim/bundle/ag.vim"]
+	path = link/.vim/bundle/ag.vim
+	url = https://github.com/rking/ag.vim.git
+[submodule "link/.vim/bundle/vim-matchit"]
+	path = link/.vim/bundle/vim-matchit
+	url = https://github.com/edsono/vim-matchit.git
