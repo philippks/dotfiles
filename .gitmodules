@@ -1,6 +1,6 @@
 [submodule "link/.vim/bundle/ctrlp.vim"]
 	path = link/.vim/bundle/ctrlp.vim
-	url = git@github.com:kien/ctrlp.vim.git
+	url = https://github.com/kien/ctrlp.vim.git
 [submodule "link/.vim/bundle/vim-trailing-whitespace"]
 	path = link/.vim/bundle/vim-trailing-whitespace
 	url = https://github.com/bronson/vim-trailing-whitespace.git
@@ -13,3 +13,33 @@
 [submodule "link/.vim/bundle/vim-matchit"]
 	path = link/.vim/bundle/vim-matchit
 	url = https://github.com/edsono/vim-matchit.git
+[submodule "link/.vim/bundle/vim-coffee-script"]
+	path = link/.vim/bundle/vim-coffee-script
+	url = https://github.com/kchmck/vim-coffee-script.git
+[submodule "link/.vim/bundle/vim-rails"]
+	path = link/.vim/bundle/vim-rails
+	url = https://github.com/tpope/vim-rails.git
+[submodule "link/.vim/bundle/vim-rspec"]
+	path = link/.vim/bundle/vim-rspec
+	url = https://github.com/thoughtbot/vim-rspec.git
+[submodule "link/.vim/bundle/vim-textobj-rubyblock"]
+	path = link/.vim/bundle/vim-textobj-rubyblock
+	url = https://github.com/nelstrom/vim-textobj-rubyblock.git
+[submodule "link/.vim/bundle/nerdtree"]
+	path = link/.vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "link/.vim/bundle/vim-better-whitespace"]
+	path = link/.vim/bundle/vim-better-whitespace
+	url = https://github.com/ntpeters/vim-better-whitespace.git
+[submodule "link/.vim/bundle/vim-endwise"]
+	path = link/.vim/bundle/vim-endwise
+	url = https://github.com/tpope/vim-endwise.git
+[submodule "link/.vim/bundle/vim-ruby"]
+	path = link/.vim/bundle/vim-ruby
+	url = https://github.com/vim-ruby/vim-ruby.git
+[submodule "link/.vim/bundle/vim-textobj-user"]
+	path = link/.vim/bundle/vim-textobj-user
+	url = https://github.com/kana/vim-textobj-user.git
+[submodule "link/.vim/bundle/syntastic"]
+	path = link/.vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
