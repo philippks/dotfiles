@@ -43,3 +43,6 @@
 [submodule "link/.vim/bundle/syntastic"]
 	path = link/.vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
+[submodule "link/.vim/bundle/vim-puppet"]
+	path = link/.vim/bundle/vim-puppet
+	url = https://github.com/rodjek/vim-puppet.git
