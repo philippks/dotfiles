@@ -1,12 +1,10 @@
-# ~/.tmuxinator/rails.yml
+# ~/.tmuxinator/dep.yml
 
 name: <%= @args[0] %>
-root: ~/projects/<%= @args[0] %>
+root: .
 
 windows:
   - editor: vim
-  - test: rspec
-  - bash:
-  - server: foreman start
+  - server: exec foreman start
   - console: bundle exec rails c
   - logs: tail -f log/development.log
