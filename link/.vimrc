@@ -6,14 +6,28 @@
 "
 scriptencoding utf-8
 set encoding=utf-8
+set fileencoding=utf-8
 
 let mapleader = ","
 
 " No backward compatibility to vi
 set nocompatible
 
-"Pathogen
-execute pathogen#infect()
+"vim-plug
+call plug#begin('~/.vim/plugged')
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'thoughtbot/vim-rspec'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-endwise'
+Plug 'rodjek/vim-puppet'
+Plug 'plasticboy/vim-markdown'
+Plug 'scrooloose/syntastic'
+Plug 'kchmck/vim-coffee-script'
+Plug 'bronson/vim-trailing-whitespace'
+call plug#end()
 
 "
 " Indentation
