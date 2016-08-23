@@ -21,3 +21,5 @@ src
 set -o vi
 alias vi='vim'
 export EDITOR='vim'
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
