@@ -1,7 +1,7 @@
-# ~/.tmuxinator/rails.yml
+# ~/.tmuxinator/railsp.yml
 
-name: <%= @args[0] %>
-root: ~/projects/<%= @args[0] %>
+name: <%= @args[0].split('/').last %>
+root: ~/<%= @args[0] %>
 
 windows:
   - editor: vim
