@@ -23,10 +23,10 @@ Plug 'thoughtbot/vim-rspec'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
 Plug 'rodjek/vim-puppet'
-Plug 'plasticboy/vim-markdown'
 Plug 'scrooloose/syntastic'
 Plug 'kchmck/vim-coffee-script'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'ervandew/supertab'
 call plug#end()
 
 "
@@ -45,7 +45,7 @@ set expandtab
 "
 syntax on
 set showtabline=2 " Tabs immer anzeigen
-set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
+set listchars=nbsp:¬,tab:»·,extends:»,precedes:«,trail:·
 set list           " listchars anzeigen
 
 "
