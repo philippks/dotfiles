@@ -52,6 +52,7 @@ set list           " listchars anzeigen
 " Spell Checking
 "
 map <F5> :setlocal spell! spelllang=hun-de-CH-frami<CR>
+map <F6> :setlocal spell! spelllang=en_us<CR>
 
 "
 " Line Numbers
