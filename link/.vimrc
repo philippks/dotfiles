@@ -15,7 +15,7 @@ set nocompatible
 
 "vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
@@ -23,10 +23,16 @@ Plug 'thoughtbot/vim-rspec'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
 Plug 'rodjek/vim-puppet'
-Plug 'scrooloose/syntastic'
+
+" Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 Plug 'kchmck/vim-coffee-script'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'ervandew/supertab'
+Plug 'tpope/vim-rhubarb'
 call plug#end()
 
 "
@@ -136,11 +142,12 @@ map <C-m> :NERDTreeFind<CR>
 "
 " CtrlP
 "
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_max_height = 30
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 0
+" set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+" let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" let g:ctrlp_max_height = 30
+" let g:ctrlp_working_path_mode = 0
+" let g:ctrlp_match_window_reversed = 0
+nnoremap <silent> <C-p> :FZF -m<cr>
 
 colorscheme sexy-railscasts-256
 
@@ -182,15 +189,14 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"
+" " python mode
+" let g:syntastic_python_checkers = ['flake8']
+" let g:syntastic_python_pep8_post_args="--max-line-length=120"
+" let g:syntastic_tex_checkers = ['lacheck']
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" es6 support
+autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
-" Vim Markdown
-let g:vim_markdown_folding_disabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline_theme='simple'
