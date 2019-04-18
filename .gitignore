@@ -11,6 +11,8 @@
 # Don't commit Vim plugins, vim-plug will install them.
 /link/.vim/plugged
 /link/.vim/undo
+/link/.vim/spell
+/link/.vim/autoload
 
 # Don't commit rbenv temp files.
 /link/.rbenv/shims/
@@ -21,3 +23,6 @@
 *LOCAL*
 
 /source/ignore.*.sh
+
+
+link/\.vim/\.netrwhist
