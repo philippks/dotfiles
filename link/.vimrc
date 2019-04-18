@@ -16,13 +16,14 @@ set nocompatible
 "vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
-Plug 'tpope/vim-rails'
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'thoughtbot/vim-rspec'
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-rails'
+"Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+"Plug 'thoughtbot/vim-rspec' replaced with vim-test?
+Plug 'janko-m/vim-test'
+Plug 'benmills/vimux'
 Plug 'tpope/vim-endwise'
-Plug 'rodjek/vim-puppet'
 
 " Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
@@ -31,8 +32,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'kchmck/vim-coffee-script'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'ervandew/supertab'
-Plug 'tpope/vim-rhubarb'
+Plug 'vim-scripts/dbext.vim'
 call plug#end()
 
 "
@@ -139,14 +139,11 @@ nnoremap <C-H> <C-W><C-H>
 map <C-n> :NERDTreeToggle<CR>
 map <C-m> :NERDTreeFind<CR>
 
+let NERDTreeIgnore = ['\.pyc$']
+
 "
-" CtrlP
+" fzf
 "
-" set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-" let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" let g:ctrlp_max_height = 30
-" let g:ctrlp_working_path_mode = 0
-" let g:ctrlp_match_window_reversed = 0
 nnoremap <silent> <C-p> :FZF -m<cr>
 
 colorscheme sexy-railscasts-256
@@ -183,12 +180,6 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 highlight ExtraWhitespace ctermbg=red guibg=red
 
-" RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-
 "
 " " python mode
 " let g:syntastic_python_checkers = ['flake8']
@@ -200,3 +191,25 @@ autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
 let g:airline#extensions#ale#enabled = 1
 let g:airline_theme='simple'
+let g:ale_lint_on_text_changed='normal'
+
+
+" vim-test
+let test#strategy = "vimux"
+nnoremap <C-e> :TestFile<CR>
+nnoremap <C-q> :TestNearest<CR>
+
+" vimux
+let g:VimuxHeight = "40"
+
+
+" fix delay when leaving insert mode
+" see: https://www.reddit.com/r/neovim/comments/35h1g1/neovim_slow_to_respond_after_esc/
+if ! has('gui_running')
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif

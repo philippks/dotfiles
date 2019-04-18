@@ -19,8 +19,9 @@ function src() {
 src
 
 set -o vi
-alias vi='vim'
-export EDITOR='vim'
+alias vi='nvim'
+alias vim='nvim'
+export EDITOR='nvim'
 eval "$(direnv hook bash)"
 eval "$(rbenv init -)"
 . /usr/share/autojump/autojump.sh
