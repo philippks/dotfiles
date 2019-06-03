@@ -27,12 +27,16 @@ Plug 'tpope/vim-endwise'
 
 " Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
+Plug 'python/black'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'kchmck/vim-coffee-script'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'vim-scripts/dbext.vim'
+Plug 'posva/vim-vue'
 call plug#end()
 
 "
@@ -201,6 +205,12 @@ nnoremap <C-q> :TestNearest<CR>
 
 " vimux
 let g:VimuxHeight = "40"
+
+" do not format code on save with vim-prettier
+" call it manually with <leader>f
+let g:prettier#autoformat = 0
+let g:prettier#config#config_precedence = 'file-override'
+nnoremap <Leader>f :Prettier<CR>
 
 
 " fix delay when leaving insert mode
