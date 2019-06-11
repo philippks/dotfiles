@@ -37,6 +37,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'vim-scripts/dbext.vim'
 Plug 'posva/vim-vue'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 "
