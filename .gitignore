@@ -13,6 +13,7 @@
 /link/.vim/undo
 /link/.vim/spell
 /link/.vim/autoload
+/link/.vim/black
 
 # Don't commit rbenv temp files.
 /link/.rbenv/shims/
