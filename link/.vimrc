@@ -29,6 +29,7 @@ Plug 'tpope/vim-endwise'
 Plug 'w0rp/ale'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
 Plug 'python/black'
+Plug 'ruby-formatter/rufo-vim'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
