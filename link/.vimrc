@@ -39,6 +39,7 @@ Plug 'vim-scripts/dbext.vim'
 Plug 'posva/vim-vue'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'elixir-editors/vim-elixir'
 call plug#end()
 
 "
