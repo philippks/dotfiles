@@ -38,6 +38,7 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'vim-scripts/dbext.vim'
 Plug 'posva/vim-vue'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 call plug#end()
 
 "
