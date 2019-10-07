@@ -18,18 +18,16 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
-"Plug 'tpope/vim-rails'
-"Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-"Plug 'thoughtbot/vim-rspec' replaced with vim-test?
 Plug 'janko-m/vim-test'
 Plug 'benmills/vimux'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-sleuth'
 
-" Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
 Plug 'python/black'
 Plug 'ruby-formatter/rufo-vim'
+Plug 'mhinz/vim-mix-format'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -41,6 +39,7 @@ Plug 'posva/vim-vue'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'elixir-editors/vim-elixir'
+Plug 'slashmili/alchemist.vim'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
@@ -244,3 +243,5 @@ endif
 
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#source('ale', 'rank', 999)
+
+let g:mix_format_on_save = 1
