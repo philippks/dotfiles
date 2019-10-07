@@ -43,10 +43,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'elixir-editors/vim-elixir'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 
 call plug#end()
 
@@ -127,7 +123,7 @@ if has('unix')
     map <C-S-C> : w ! xclip -selection clipboard<CR><CR>
     set clipboard=unnamed
   else                " linux, bsd, etc
-    set clipboard=unnamedplus
+    set clipboard+=unnamedplus
     vmap <C-c> y:call system("xclip -i -selection clipboard", getreg("\""))<CR>:call system("xclip -i", getreg("\""))<CR>
     vmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
   endif
@@ -206,7 +202,17 @@ autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
 let g:airline#extensions#ale#enabled = 1
 let g:airline_theme='simple'
+let g:ale_linters = {'python': ['pyls']}
 let g:ale_lint_on_text_changed='normal'
+let g:ale_javascript_prettier_use_local_config = 1
+let b:ale_fixers = {'javascript': ['prettier', 'eslint'], 'python': ['black']}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint', 'prettier'],
+\   'python': ['black'],
+\   'ruby': ['rubocop'],
+\}
+let g:ale_fix_on_save = 1
 
 
 " vim-test
@@ -237,22 +243,4 @@ endif
 
 
 let g:deoplete#enable_at_startup = 1
-
-
-" LanguageClient neovim
-"" Required for operations modifying multiple buffers like rename.
-set hidden
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-    \ }
-
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
+call deoplete#custom#source('ale', 'rank', 999)
