@@ -25,8 +25,6 @@ Plug 'tpope/vim-sleuth'
 
 Plug 'w0rp/ale'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
-Plug 'python/black'
-Plug 'ruby-formatter/rufo-vim'
 Plug 'mhinz/vim-mix-format'
 
 Plug 'vim-airline/vim-airline'
@@ -204,14 +202,18 @@ let g:airline_theme='simple'
 let g:ale_linters = {'python': ['pyls']}
 let g:ale_lint_on_text_changed='normal'
 let g:ale_javascript_prettier_use_local_config = 1
-let b:ale_fixers = {'javascript': ['prettier', 'eslint'], 'python': ['black']}
+let g:ale_elixir_elixir_ls_release = '/home/philipp/src/elixir-ls/rel'
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'prettier'],
 \   'python': ['black'],
-\   'ruby': ['rubocop'],
+\   'ruby': ['rufo', 'standardrb'],
+\   'elixir': ['elixir-ls'],
 \}
 let g:ale_fix_on_save = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 
 " vim-test
@@ -243,5 +245,3 @@ endif
 
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#source('ale', 'rank', 999)
-
-let g:mix_format_on_save = 1
