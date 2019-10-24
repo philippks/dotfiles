@@ -1,0 +1,10 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
