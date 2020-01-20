@@ -199,7 +199,7 @@ autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
 let g:airline#extensions#ale#enabled = 1
 let g:airline_theme='simple'
-let g:ale_linters = {'python': ['pyls']}
+let g:ale_linters = {'yaml': ['yamllint', 'prettier'], 'dockerfile': ['dockerfile_lint'], 'python': ['pyls']}
 let g:ale_lint_on_text_changed='normal'
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_elixir_elixir_ls_release = '/home/philipp/src/elixir-ls/rel'
@@ -209,6 +209,7 @@ let g:ale_fixers = {
 \   'python': ['black'],
 \   'ruby': ['standardrb'],
 \   'elixir': ['elixir-ls'],
+\   'yaml': ['prettier'],
 \}
 let g:ale_fix_on_save = 1
 let g:ale_echo_msg_error_str = 'E'
