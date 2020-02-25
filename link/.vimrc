@@ -10,6 +10,10 @@ set fileencoding=utf-8
 
 let mapleader = ","
 
+" allow file type specific options, see .vim/ftplugin/
+filetype plugin on
+filetype plugin indent on
+
 " No backward compatibility to vi
 set nocompatible
 
@@ -35,11 +39,13 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'vim-scripts/dbext.vim'
 Plug 'posva/vim-vue'
 Plug 'tpope/vim-fugitive'
+Plug 'tommcdo/vim-fubitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'elixir-editors/vim-elixir'
 Plug 'slashmili/alchemist.vim'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'ElmCast/elm-vim'
 
 call plug#end()
 
@@ -199,7 +205,14 @@ autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
 let g:airline#extensions#ale#enabled = 1
 let g:airline_theme='simple'
-let g:ale_linters = {'yaml': ['yamllint', 'prettier'], 'dockerfile': ['dockerfile_lint'], 'python': ['pyls']}
+let g:ale_linters = {
+\  'yaml': ['yamllint', 'prettier'],
+\  'dockerfile': ['dockerfile_lint'],
+\  'python': ['pyls'],
+\  'ruby': ['ruby', 'solargraph'],
+\  'elixir': ['elixir-ls'],
+\  'elm': ['elm_ls', 'elm-format']
+\}
 let g:ale_lint_on_text_changed='normal'
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_elixir_elixir_ls_release = '/home/philipp/src/elixir-ls/rel'
@@ -207,15 +220,16 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'prettier'],
 \   'python': ['black'],
-\   'ruby': ['standardrb'],
-\   'elixir': ['elixir-ls'],
+\   'ruby': ['standardrb', 'rufo'],
+\   'elixir': ['mix_format'],
 \   'yaml': ['prettier'],
 \}
-let g:ale_fix_on_save = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 nnoremap <C-d> :ALEGoToDefinition<CR>
+nnoremap <C-f> :ALEFindReferences<CR>
+
 
 
 " vim-test
@@ -243,7 +257,6 @@ if ! has('gui_running')
         au InsertLeave * set timeoutlen=1000
     augroup END
 endif
-
 
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#source('ale', 'rank', 999)
