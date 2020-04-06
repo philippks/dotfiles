@@ -32,3 +32,12 @@ then
 else
   PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\033[31m\]\$(git_prompt)\n\[\033[00m\]$ "
 fi
+
+# set current directory as title of tabs
+PROMPT_COMMAND='echo -en "\033]0; ${PWD#"${PWD%/*/*}/"} \a"'
+
+function ssh()
+{
+   echo -ne "\033]0;$*\007"
+   /usr/bin/ssh "$@"
+}
