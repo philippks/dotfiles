@@ -1,2 +1,7 @@
 alias tvim='tmux new-session vim'
 alias mux='tmuxinator'
+alias dcdev='docker-compose -f docker-compose.dev.yml'
+alias dcdevup='docker-compose -f docker-compose.dev.yml up'
+alias dctest='docker-compose -f docker-compose.test.yml'
+alias dctestrun='docker-compose -f docker-compose.test.yml run --rm tests'
+alias dctestbuild='docker-compose -f docker-compose.test.yml build'
