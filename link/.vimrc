@@ -152,7 +152,7 @@ nnoremap <C-H> <C-W><C-H>
 map <C-n> :NERDTreeToggle<CR>
 map <C-m> :NERDTreeFind<CR>
 
-let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
 "
 " fzf
