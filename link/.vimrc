@@ -20,7 +20,6 @@ set nocompatible
 "vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'janko-m/vim-test'
 Plug 'benmills/vimux'
@@ -211,7 +210,8 @@ let g:ale_linters = {
 \  'python': ['pyls'],
 \  'ruby': ['ruby', 'solargraph'],
 \  'elixir': ['elixir-ls'],
-\  'elm': ['elm_ls', 'elm-format']
+\  'elm': ['elm_ls', 'elm-format'],
+\  'sh': ['language_server']
 \}
 let g:ale_lint_on_text_changed='normal'
 let g:ale_javascript_prettier_use_local_config = 1
@@ -223,6 +223,7 @@ let g:ale_fixers = {
 \   'ruby': ['standardrb', 'rufo'],
 \   'elixir': ['mix_format'],
 \   'yaml': ['prettier'],
+\   'sh': ['shfmt'],
 \}
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
