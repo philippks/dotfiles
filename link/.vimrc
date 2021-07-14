@@ -32,6 +32,7 @@ Plug 'mhinz/vim-mix-format'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'rafi/awesome-vim-colorschemes'
 
 Plug 'kchmck/vim-coffee-script'
 Plug 'bronson/vim-trailing-whitespace'
@@ -45,6 +46,7 @@ Plug 'slashmili/alchemist.vim'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'ElmCast/elm-vim'
+Plug 'pearofducks/ansible-vim'
 
 call plug#end()
 
@@ -159,7 +161,8 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 "
 nnoremap <silent> <C-p> :FZF -m<cr>
 
-colorscheme sexy-railscasts-256
+" colorscheme sexy-railscasts-256
+colorscheme flattened_light
 
 " highlight the status bar when in insert mode
 if version >= 700
@@ -224,6 +227,8 @@ let g:ale_fixers = {
 \   'elixir': ['mix_format'],
 \   'yaml': ['prettier'],
 \   'sh': ['shfmt'],
+\   'json': ['prettier'],
+\   'ansible': ['prettier'],
 \}
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
