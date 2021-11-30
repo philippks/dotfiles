@@ -1,4 +1,4 @@
-export TERM=xterm-256color
+export TERM=tmux-256color
 
 color_prompt=yes
 

@@ -26,12 +26,6 @@ Plug 'benmills/vimux'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-sleuth'
 
-Plug 'w0rp/ale'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
-Plug 'mhinz/vim-mix-format'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'rafi/awesome-vim-colorschemes'
 
 Plug 'kchmck/vim-coffee-script'
@@ -44,9 +38,21 @@ Plug 'tpope/vim-rhubarb'
 Plug 'elixir-editors/vim-elixir'
 Plug 'slashmili/alchemist.vim'
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 Plug 'ElmCast/elm-vim'
 Plug 'pearofducks/ansible-vim'
+
+" for react
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'pearofducks/ansible-vim'
+
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+
+Plug 'dense-analysis/ale'
 
 call plug#end()
 
@@ -153,6 +159,7 @@ nnoremap <C-H> <C-W><C-H>
 "
 map <C-n> :NERDTreeToggle<CR>
 map <C-m> :NERDTreeFind<CR>
+:let g:NERDTreeWinSize=60
 
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
@@ -162,7 +169,8 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 nnoremap <silent> <C-p> :FZF -m<cr>
 
 " colorscheme sexy-railscasts-256
-colorscheme flattened_light
+" colorscheme flattened_light
+colorscheme solarized8
 
 " highlight the status bar when in insert mode
 if version >= 700
@@ -205,38 +213,8 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 " es6 support
 autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
-let g:airline#extensions#ale#enabled = 1
-let g:airline_theme='simple'
-let g:ale_linters = {
-\  'yaml': ['yamllint', 'prettier'],
-\  'dockerfile': ['dockerfile_lint'],
-\  'python': ['pyls'],
-\  'ruby': ['ruby', 'solargraph'],
-\  'elixir': ['elixir-ls'],
-\  'elm': ['elm_ls', 'elm-format'],
-\  'sh': ['language_server']
-\}
-let g:ale_lint_on_text_changed='normal'
-let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_elixir_elixir_ls_release = '/home/philipp/src/elixir-ls/rel'
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint', 'prettier'],
-\   'python': ['black'],
-\   'ruby': ['standardrb', 'rufo'],
-\   'elixir': ['mix_format'],
-\   'yaml': ['prettier'],
-\   'sh': ['shfmt'],
-\   'json': ['prettier'],
-\   'ansible': ['prettier'],
-\}
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-nnoremap <C-d> :ALEGoToDefinition<CR>
-nnoremap <C-f> :ALEFindReferences<CR>
-
-
+" vim-jsx-typescript
+let g:vim_jsx_pretty_colorful_config = 1
 
 " vim-test
 let test#strategy = "vimux"
@@ -245,13 +223,6 @@ nnoremap <C-q> :TestNearest<CR>
 
 " vimux
 let g:VimuxHeight = "40"
-
-" do not format code on save with vim-prettier
-" call it manually with <leader>f
-let g:prettier#autoformat = 0
-let g:prettier#config#config_precedence = 'file-override'
-nnoremap <Leader>f :Prettier<CR>
-
 
 " fix delay when leaving insert mode
 " see: https://www.reddit.com/r/neovim/comments/35h1g1/neovim_slow_to_respond_after_esc/
@@ -264,5 +235,201 @@ if ! has('gui_running')
     augroup END
 endif
 
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#source('ale', 'rank', 999)
+"let g:deoplete#enable_at_startup = 1
+"call deoplete#custom#source('ale', 'rank', 999)
+
+
+" add import pdb; pdb.set_trace() with <Leader>d
+map <Leader>p :call InsertLine()<CR>
+function! InsertLine()
+  let trace = expand("import pdb; pdb.set_trace()")
+  execute "normal o".trace
+endfunction
+
+
+
+
+" install coc extensions
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-elixir', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml']
+
+"""""" EXAMPLE CONFIGURATION FROM coc plugin """""
+
+" Set internal encoding of vim, not needed on neovim, since coc.nvim using some
+" unicode characters in the file autoload/float.vim
+set encoding=utf-8
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+
+nnoremap <C-i> :<C-u>CocCommand python.sortImports<CR>
+
+" Ale Config, only for typescript since coc-vim with eslint and prettier does not work
+let g:ale_fixers = {
+\   'typescript': ['prettier', 'eslint'],
+\   'typescriptreact': ['prettier', 'eslint'],
+\}
+
+let g:ale_linters = {}
+let g:ale_linters.typescript = ['eslint', 'tsserver']
+let g:ale_linters.typescriptreact = ['eslint', 'tsserver']
+
+let g:ale_typescript_prettier_use_local_config = 1
+
+let g:ale_fix_on_save = 1
+
+let g:ale_linters_explicit = 1

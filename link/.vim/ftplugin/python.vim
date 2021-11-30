@@ -6,4 +6,5 @@ endfunction
 
 let g:test#custom_transformations = {'docker': function('DockerTransform')}
 let g:test#transformation = 'docker'
+let test#python#runner = 'pytest'
 let test#python#pytest#executable = 'python -m pytest'

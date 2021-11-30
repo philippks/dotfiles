@@ -26,4 +26,4 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # disable Non-Breaking space
-setxkbmap -option "nbsp:none"
+# setxkbmap -option "nbsp:none"
