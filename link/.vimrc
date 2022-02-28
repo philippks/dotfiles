@@ -23,7 +23,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'janko-m/vim-test'
 Plug 'benmills/vimux'
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-sleuth'
 
 Plug 'rafi/awesome-vim-colorschemes'
@@ -53,6 +52,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 
 Plug 'dense-analysis/ale'
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
@@ -250,7 +250,7 @@ endfunction
 
 
 " install coc extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-elixir', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-elixir', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml', 'coc-spell-checker']
 
 """""" EXAMPLE CONFIGURATION FROM coc plugin """""
 
@@ -307,8 +307,7 @@ endif
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
-"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -395,7 +394,12 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
