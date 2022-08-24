@@ -25,7 +25,9 @@ Plug 'janko-m/vim-test'
 Plug 'benmills/vimux'
 Plug 'tpope/vim-sleuth'
 
-Plug 'rafi/awesome-vim-colorschemes'
+Plug 'sainnhe/gruvbox-material'
+Plug 'vim-scripts/Color-Scheme-Explorer'
+Plug 'sonph/onehalf'
 
 Plug 'kchmck/vim-coffee-script'
 Plug 'bronson/vim-trailing-whitespace'
@@ -36,8 +38,6 @@ Plug 'tommcdo/vim-fubitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'elixir-editors/vim-elixir'
 Plug 'slashmili/alchemist.vim'
-
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'ElmCast/elm-vim'
@@ -53,6 +53,7 @@ Plug 'maxmellon/vim-jsx-pretty'
 
 Plug 'dense-analysis/ale'
 Plug 'tpope/vim-commentary'
+Plug 'lfv89/vim-interestingwords'
 
 call plug#end()
 
@@ -90,7 +91,7 @@ set number
 " Line Length
 "
 highlight ColorColumn ctermbg=magenta "set to whatever you like
-call matchadd('ColorColumn', '\%101v', 100) "set column nr
+call matchadd('ColorColumn', '\%121v', 120) "set column nr
 
 "
 " Filetype settings
@@ -139,6 +140,22 @@ if has('unix')
   endif
 endif
 
+" WSL use win32yank
+if !empty(matchstr(system("uname -a"), "microsoft"))
+   let g:clipboard = {
+       \ 'name': 'win32yank',
+       \ 'copy': {
+       \   '+': 'win32yank.exe -i --crlf',
+       \   '*': 'win32yank.exe -i --crlf',
+       \   },
+       \ 'paste': {
+       \   '+': 'win32yank.exe -o --lf',
+       \   '*': 'win32yank.exe -o --lf',
+       \   },
+       \ 'cache_enabled': 1,
+       \ }
+endif
+
 "
 " Split
 "
@@ -168,9 +185,17 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 "
 nnoremap <silent> <C-p> :FZF -m<cr>
 
-" colorscheme sexy-railscasts-256
-" colorscheme flattened_light
-colorscheme solarized8
+set background=dark
+let g:gruvbox_material_background = 'medium'
+colorscheme gruvbox-material
+hi! link ErrorText ErrorMsg
+hi! SpellBad cterm=underline gui=underline guisp=#ea6962
+hi! link SpellCap SpellBad
+hi! link SpellRare SpellBad
+hi! link SpellLocal SpellBad
+hi! WarningText cterm=underline gui=underline guisp=#d8a657
+hi! InfoText cterm=underline gui=underline guisp=#d8a657
+hi! HintText cterm=underline gui=underline guisp=#a9b665
 
 " highlight the status bar when in insert mode
 if version >= 700
@@ -250,7 +275,7 @@ endfunction
 
 
 " install coc extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-elixir', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml', 'coc-spell-checker']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-stylelint', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-elixir', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml', 'coc-spell-checker', 'coc-htmldjango']
 
 """""" EXAMPLE CONFIGURATION FROM coc plugin """""
 
@@ -421,9 +446,28 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 
 nnoremap <C-i> :<C-u>CocCommand python.sortImports<CR>
+nmap <Leader>U :CocCommand git.chunkUndo<CR>
+nmap <Leader>og :CocCommand git.toggleGutters<CR>
+
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
 
 " Ale Config, only for typescript since coc-vim with eslint and prettier does not work
 let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
 \   'typescript': ['prettier', 'eslint'],
 \   'typescriptreact': ['prettier', 'eslint'],
 \}
@@ -437,3 +481,6 @@ let g:ale_typescript_prettier_use_local_config = 1
 let g:ale_fix_on_save = 1
 
 let g:ale_linters_explicit = 1
+
+" isort on save
+autocmd BufWritePre *.py silent! :call CocAction('runCommand', 'python.sortImports')

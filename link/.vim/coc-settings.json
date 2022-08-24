@@ -1,0 +1,22 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "python", "json"],
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "120"],
+  "pyright.organizeimports.provider": "isort",
+  "python.sortImports.path": "~/.local/bin/isort",
+  "python.linting.mypyEnabled": true,
+  "python.linting.mypyArgs": [
+    "--config-file",
+    "mypy.ini",
+    "--no-pretty",
+    "--follow-imports=silent",
+    "--show-column-numbers"
+  ],
+  "python.linting.pylintEnabled": true,
+  "coc.preferences.willSaveHandlerTimeout": 500,
+  "prettier.eslintIntegration": false,
+  "prettier.printWidth": 120,
+  "cSpell.userWords": ["Curena", "Sedimentum", "Spitex", "Triaplus", "care", "healthcheck", "yasg"],
+  "git.enableGutters": true,
+  "htmldjango.djlint.indent": 2
+}
