@@ -1,5 +1,5 @@
 # https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history
-HISTCONTROL=ignoredups:erasedups
+HISTCONTROL=ignoredups:erasedups:ignorespace
 HISTFILESIZE=1000000
 HISTSIZE=1000000
 shopt -s histappend

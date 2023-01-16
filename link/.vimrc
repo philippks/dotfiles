@@ -51,9 +51,12 @@ Plug 'pearofducks/ansible-vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 
-Plug 'dense-analysis/ale'
 Plug 'tpope/vim-commentary'
 Plug 'lfv89/vim-interestingwords'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-unimpaired'
+Plug 'eandrju/cellular-automaton.nvim'
 
 call plug#end()
 
@@ -275,7 +278,7 @@ endfunction
 
 
 " install coc extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-stylelint', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-elixir', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml', 'coc-spell-checker', 'coc-htmldjango']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-stylelint', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml', 'coc-spell-checker', 'coc-cspell-dicts', 'coc-htmldjango', 'coc-solidity', "coc-elixir"]
 
 """""" EXAMPLE CONFIGURATION FROM coc plugin """""
 
@@ -309,20 +312,6 @@ else
   set signcolumn=yes
 endif
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
 " Use <c-space> to trigger completion.
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
@@ -330,20 +319,42 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[g` and `]g` to navigate diagnostics
+" -----------------------------------------------------------------------------
+" from https://github.com/neoclide/coc.nvim/issues/4155#issuecomment-1238586683
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" -----------------------------------------------------------------------------
+
+" Use `[p` and `]p` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> dp <Plug>(coc-diagnostic-prev)
+nmap <silent> dn <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <leader> rn <Plug>(coc-rename)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -376,10 +387,8 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <leader>a  <Plug>(coc-codeaction-cursor)
+nmap <leader>a  <Plug>(coc-codeaction-cursor)
 
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -445,9 +454,9 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 
-nnoremap <C-i> :<C-u>CocCommand python.sortImports<CR>
 nmap <Leader>U :CocCommand git.chunkUndo<CR>
 nmap <Leader>og :CocCommand git.toggleGutters<CR>
+nmap <Leader>h :call CocAction('doHover')<CR>
 
 " navigate chunks of current buffer
 nmap [g <Plug>(coc-git-prevchunk)
@@ -465,22 +474,12 @@ xmap ig <Plug>(coc-git-chunk-inner)
 omap ag <Plug>(coc-git-chunk-outer)
 xmap ag <Plug>(coc-git-chunk-outer)
 
-" Ale Config, only for typescript since coc-vim with eslint and prettier does not work
-let g:ale_fixers = {
-\   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'eslint'],
-\   'typescriptreact': ['prettier', 'eslint'],
-\}
-
-let g:ale_linters = {}
-let g:ale_linters.typescript = ['eslint', 'tsserver']
-let g:ale_linters.typescriptreact = ['eslint', 'tsserver']
-
-let g:ale_typescript_prettier_use_local_config = 1
-
-let g:ale_fix_on_save = 1
-
-let g:ale_linters_explicit = 1
-
 " isort on save
 autocmd BufWritePre *.py silent! :call CocAction('runCommand', 'python.sortImports')
+
+" disable mouse
+set mouse=
+
+" see https://github.com/Eandrju/cellular-automaton.nvim
+nmap <Leader>) :CellularAutomaton make_it_rain<CR>
+nmap <Leader>(f :CellularAutomaton game_of_life<CR>
