@@ -34,7 +34,12 @@ else
 fi
 
 # set current directory as title of tabs
-PROMPT_COMMAND='echo -en "\033]0; ${PWD#"${PWD%/*/*}/"} \a"'
+PROMPT_COMMAND="set_tab_title; $PROMPT_COMMAND"
+
+function set_tab_title()
+{
+    echo -en "\033]0; ${PWD#"${PWD%/*/*}/"} \a"
+}
 
 function ssh()
 {

@@ -30,26 +30,21 @@ Plug 'vim-scripts/Color-Scheme-Explorer'
 Plug 'sonph/onehalf'
 
 Plug 'kchmck/vim-coffee-script'
-Plug 'bronson/vim-trailing-whitespace'
 Plug 'vim-scripts/dbext.vim'
 Plug 'posva/vim-vue'
 Plug 'tpope/vim-fugitive'
 Plug 'tommcdo/vim-fubitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'elixir-editors/vim-elixir'
-Plug 'slashmili/alchemist.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'ElmCast/elm-vim'
 Plug 'pearofducks/ansible-vim'
 
 " for react
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pearofducks/ansible-vim'
-
 Plug 'leafgarland/typescript-vim'
-Plug 'maxmellon/vim-jsx-pretty'
 
 Plug 'tpope/vim-commentary'
 Plug 'lfv89/vim-interestingwords'
@@ -57,6 +52,9 @@ Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 Plug 'eandrju/cellular-automaton.nvim'
+
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'lbrayner/vim-rzip'
 
 call plug#end()
 
@@ -278,7 +276,7 @@ endfunction
 
 
 " install coc extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-stylelint', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-solargraph', 'coc-tailwindcss', 'coc-html', 'coc-pyright', 'coc-yaml', 'coc-spell-checker', 'coc-cspell-dicts', 'coc-htmldjango', 'coc-solidity', "coc-elixir"]
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-stylelint', 'coc-tsserver', 'coc-eslint', 'coc-prettier', 'coc-solargraph', 'coc-html', 'coc-pyright', 'coc-yaml', 'coc-spell-checker', 'coc-cspell-dicts', 'coc-htmldjango', 'coc-solidity', 'coc-elixir', '@yaegassy/coc-tailwindcss3']
 
 """""" EXAMPLE CONFIGURATION FROM coc plugin """""
 
@@ -337,6 +335,7 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 " <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -430,6 +429,8 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
+command! -nargs=0 FIX   :call CocActionAsync('runCommand', 'editor.action.organizeImport') | :call CocActionAsync('runCommand', 'tsserver.executeAutofix')
+
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
@@ -475,7 +476,7 @@ omap ag <Plug>(coc-git-chunk-outer)
 xmap ag <Plug>(coc-git-chunk-outer)
 
 " isort on save
-autocmd BufWritePre *.py silent! :call CocAction('runCommand', 'python.sortImports')
+au BufWritePre *.py :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
 " disable mouse
 set mouse=
@@ -483,3 +484,18 @@ set mouse=
 " see https://github.com/Eandrju/cellular-automaton.nvim
 nmap <Leader>) :CellularAutomaton make_it_rain<CR>
 nmap <Leader>(f :CellularAutomaton game_of_life<CR>
+
+" Remove plugins not explicitly defined in g:coc_global_extensions
+" Ignore special case: friendly-snippets
+" Source: https://github.com/neoclide/coc.nvim/issues/2857
+function! CocClean() abort
+  let g:extensions_to_clean = CocAction("loadedExtensions")
+      \ ->filter({idx, extension -> extension !~ 'friendly-snippets'})
+      \ ->filter({idx, extension -> index(g:coc_global_extensions, extension) == -1})
+  if len(g:extensions_to_clean)
+    exe 'CocUninstall' join(map(g:extensions_to_clean, {_, line -> split(line)[0]}))
+  else
+    echo 'Nothing to clean'
+  endif
+endfunction
+command! -nargs=0 CocClean :call CocClean()

@@ -3,7 +3,7 @@ HISTCONTROL=ignoredups:erasedups:ignorespace
 HISTFILESIZE=1000000
 HISTSIZE=1000000
 shopt -s histappend
-PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -25,5 +25,6 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-# disable Non-Breaking space
-# setxkbmap -option "nbsp:none"
+load-env(){
+    export $(grep -v '^#' .env | xargs)
+}
